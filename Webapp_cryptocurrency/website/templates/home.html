@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>Crypto Prediction App</title>
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/home.css') }}">
+    </head>
+<body>
+    <div class="container">
+        <h1>Crypto Prediction App</h1>
+        <form method="post">
+            <label for="coin">Chọn coin (ví dụ: BTCUSDT, ETHUSDT):</label>
+            <select name="coin" id="coin">
+                <option value="BTCUSDT">BTCUSDT</option>
+                <option value="ETHUSDT">ETHUSDT</option>
+                <!-- Thêm các coin khác nếu cần -->
+            </select>
+            <button type="submit">Prediction</button>
+        </form>
+        
+        {% if prediction %}
+        <h2>Kết quả Prediction:</h2>
+        <ul>
+            <li>Probability: {{ prediction.probability }} ({{ prediction.probability * 100 }}%)</li>
+            <li>Trend: {{ prediction.trend }}</li>
+            <li>Final Signal: {{ prediction.final_signal }}</li>
+            <li>Predicted probability (as percentage): {{ prediction.predicted_probability_percent }}</li>
+            <li>Final prediction signal: {{ prediction.final_prediction_signal }}</li>
+        </ul>
+        {% endif %}
+    </div>
+</body>
+</html>
