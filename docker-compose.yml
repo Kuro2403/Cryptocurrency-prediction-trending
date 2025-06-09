@@ -1,34 +1,29 @@
-services:
-  n8n_crypto:
-    image: n8nio/n8n:latest
-    container_name: n8n_crypto
-    ports:
-      - "5678:5678"
-    environment:
-      - DB_TYPE=postgresdb
-      - DB_POSTGRESDB_HOST=postgres   # Sử dụng tên service của postgres
-      - DB_POSTGRESDB_PORT=5432
-      - DB_POSTGRESDB_DATABASE=cryptocurrency
-      - DB_POSTGRESDB_USER=postgres
-      - DB_POSTGRESDB_PASSWORD=admin
-    volumes:
-      - ./n8n_data:/home/node/.n8n
-    depends_on:
-      - postgres
+version: "3.9"
 
+services:
   postgres:
     image: postgres:17
-    container_name: my-postgres
     environment:
-      - POSTGRES_DB=cryptocurrency
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=admin
-    ports:
-      - "5432:5432"
-  # Tùy chọn: script Python streaming data
-  # binance_ws:
-  #   build: ./binance_ws  # Thư mục có Dockerfile
-  #   container_name: binance_ws
-  #   depends_on:
-  #     - n8n
-  #     - postgres
+      POSTGRES_DB: cryptocurrency
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: admin
+    ports: ["5432:5432"]
+    volumes: ["pgdata:/var/lib/postgresql/data"]
+
+  mlflow:
+    image: ghcr.io/mlflow/mlflow:latest
+    command: mlflow server --backend-store-uri /mlruns --host 0.0.0.0
+    ports: ["5000:5000"]
+    volumes: ["./mlruns:/mlruns"]
+
+  trainer:
+    build: .
+    environment:
+      POSTGRES_URI: postgresql://postgres:admin@postgres:5432/cryptocurrency
+      MLFLOW_TRACKING_URI: http://mlflow:5000
+    volumes:
+      - .:/app
+    depends_on: [postgres, mlflow]
+
+volumes:
+  pgdata:
