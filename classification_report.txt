@@ -1,0 +1,14 @@
+                     precision    recall  f1-score   support
+
+   CDLBELTHOLD_bear     0.5821    0.9046    0.7084       482
+   CDLBELTHOLD_bull     0.6396    0.7047    0.6705       491
+  CDLENGULFING_bear     0.8519    0.0835    0.1521       551
+  CDLENGULFING_bull     0.5053    0.2992    0.3758       478
+     CDLHARAMI_bear     0.4509    0.4491    0.4500       501
+     CDLHARAMI_bull     0.4853    0.4477    0.4657       478
+CDLSPINNINGTOP_bear     0.6196    0.9220    0.7412       500
+CDLSPINNINGTOP_bull     0.6410    0.8685    0.7376       479
+
+           accuracy                         0.5775      3960
+          macro avg     0.5969    0.5849    0.5377      3960
+       weighted avg     0.6011    0.5775    0.5318      3960

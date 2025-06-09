@@ -1,0 +1,42 @@
+digraph ML_DL_Architecture {
+	fontname=Arial rankdir=TB size="10,15"
+	DB [label="Database
+(PostgreSQL + TimescaleDB)" color=lightyellow fontname=Arial shape=cylinder style=filled]
+	Input [label="Input Data
+(Market Data,
+Sentiment Analysis)" color=lightblue fontname=Arial shape=box style=filled]
+	MobileNetV2 [label="MobileNetV2
+(Feature Extraction)" color=lightgreen fontname=Arial shape=box style=filled]
+	NAR [label="NAR
+(Non-Autoregressive)" color=lightgreen fontname=Arial shape=box style=filled]
+	GRU [label="GRU
+(Sequential Processing)" color=lightgreen fontname=Arial shape=box style=filled]
+	Fusion [label="Feature Fusion Layer" color=yellow fontname=Arial shape=box style=filled]
+	LightGBM [label="LightGBM
+(Gradient Boosting)" color=orange fontname=Arial shape=box style=filled]
+	XGBoost [label="XGBoost
+(Gradient Boosting)" color=orange fontname=Arial shape=box style=filled]
+	Output [label="Final Prediction
+(Price/Trend)" color=lightcoral fontname=Arial shape=box style=filled]
+	n8n [label="n8n
+(Workflow Automation)" color=lightgrey fontname=Arial shape=ellipse style=filled]
+	Flask [label="Flask
+(API Server)" color=lightgrey fontname=Arial shape=ellipse style=filled]
+	Docker [label="Docker
+(Containerization)" color=lightgrey fontname=Arial shape=ellipse style=filled]
+	DB -> Input [label="Fetch Data" fontname=Arial]
+	Input -> MobileNetV2
+	Input -> NAR
+	Input -> GRU
+	MobileNetV2 -> Fusion
+	NAR -> Fusion
+	GRU -> Fusion
+	Fusion -> LightGBM
+	Fusion -> XGBoost
+	LightGBM -> Output
+	XGBoost -> Output
+	Output -> n8n
+	Output -> Flask
+	Docker -> n8n [label=Containerize fontname=Arial]
+	Docker -> Flask [label=Containerize fontname=Arial]
+}
